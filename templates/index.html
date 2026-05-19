@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Student Chatbot</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <div class="sidebar">
+
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h2>Student AI</h2>
+            </div>
+
+            <button class="new-chat-btn">
+                <i class="fa-solid fa-plus"></i>
+                New Chat
+            </button>
+
+            <div class="chat-history">
+
+                {% for chat in chats %}
+
+                <div class="history-item">
+
+                    {{ chat.user_message[:25] }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <div class="chat-section">
+
+            <div class="topbar">
+
+                <div>
+                    <h1>AI Student Chatbot</h1>
+                    <p>Your Personal AI Study Assistant</p>
+                </div>
+
+                <div class="top-icons">
+
+                    <span style="color:white; margin-right:15px;">
+                        {{ username }}
+                    </span>
+
+                    <a href="/logout">
+
+                        <button style="
+                            width:90px;
+                            height:40px;
+                            border:none;
+                            border-radius:10px;
+                            background:red;
+                            color:white;
+                            cursor:pointer;
+                            margin-right:10px;
+                        ">
+                            Logout
+                        </button>
+
+                    </a>
+
+                    <i class="fa-solid fa-microphone" onclick="startVoice()"></i>
+
+                </div>
+
+            </div>
+
+            <div id="chat-box"></div>
+
+            <div id="typing" class="typing hidden">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="input-area">
+
+                <input
+                    type="text"
+                    id="user-input"
+                    placeholder="Ask anything..."
+                    onkeypress="handleEnter(event)"
+                >
+
+                <label class="upload-btn">
+                    <i class="fa-solid fa-paperclip"></i>
+                    <input type="file" hidden>
+                </label>
+
+                <button onclick="sendMessage()">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
