@@ -1,19 +1,69 @@
-<div class="input-area">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student AI</title>
 
-<button onclick="startVoice()">
-🎤
-</button>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
 
-<input
-type="text"
-id="message"
-placeholder="Ask anything...">
+<div class="app">
 
-<button
-onclick="sendMessage()">
+    <div class="sidebar">
+        <h2>🎓 Student AI</h2>
 
-Send
+        <button class="new-chat">+ New Chat</button>
 
-</button>
+        <div class="chat-list">
+            <div class="chat-item">Chat 1</div>
+            <div class="chat-item">Chat 2</div>
+        </div>
+    </div>
+
+    <div class="main">
+
+        <div class="header">
+            <div>
+                <h1 class="title">AI Student Chatbot</h1>
+                <p class="subtitle">Your Personal AI Study Assistant</p>
+            </div>
+
+            <div class="top-buttons">
+                <button id="theme-btn">🌙</button>
+                <button class="logout-btn">Logout</button>
+            </div>
+        </div>
+
+        <div id="chat-box" class="chat-box">
+
+            <div class="message ai">
+                🤖 Hello! How can I assist you today?
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <button id="voice-btn">🎤</button>
+
+            <input
+                type="text"
+                id="user-input"
+                class="input-box"
+                placeholder="Ask anything..."
+            >
+
+            <button id="send-btn">➤</button>
+
+        </div>
+
+    </div>
 
 </div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>

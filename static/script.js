@@ -1,118 +1,113 @@
 const sendBtn = document.getElementById("send-btn");
+
 const userInput = document.getElementById("user-input");
+
 const chatBox = document.getElementById("chat-box");
 
+async function sendMessage() {
 
-// SEND MESSAGE
-function sendMessage(){
+    const message = userInput.value;
 
-    let message = userInput.value.trim();
-
-    if(message === ""){
+    if(message.trim() === ""){
         return;
     }
 
     // USER MESSAGE
-    let userDiv = document.createElement("div");
 
-    userDiv.classList.add("message");
-    userDiv.classList.add("user-message");
+    const userMessage = document.createElement("div");
 
-    userDiv.innerText = message;
+    userMessage.classList.add("message", "user");
 
-    chatBox.appendChild(userDiv);
+    userMessage.innerText = message;
 
-    // AUTO SCROLL
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.appendChild(userMessage);
 
-    // CLEAR INPUT
     userInput.value = "";
 
+    chatBox.scrollTop = chatBox.scrollHeight;
 
+    try{
 
-    // BOT THINKING
-    setTimeout(() => {
+        const response = await fetch("/chat", {
 
-        let botDiv = document.createElement("div");
+            method: "POST",
 
-        botDiv.classList.add("message");
-        botDiv.classList.add("bot-message");
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        botDiv.innerText = getBotReply(message);
+            body: JSON.stringify({
+                message: message
+            })
 
-        chatBox.appendChild(botDiv);
+        });
+
+        const data = await response.json();
+
+        // AI MESSAGE
+
+        const aiMessage = document.createElement("div");
+
+        aiMessage.classList.add("message", "ai");
+
+        aiMessage.innerText = data.reply;
+
+        chatBox.appendChild(aiMessage);
 
         chatBox.scrollTop = chatBox.scrollHeight;
 
-    },1000);
+    }
 
+    catch(error){
+
+        const aiMessage = document.createElement("div");
+
+        aiMessage.classList.add("message", "ai");
+
+        aiMessage.innerText = "Error connecting to AI.";
+
+        chatBox.appendChild(aiMessage);
+    }
 }
 
+// SEND BUTTON
 
-// BUTTON CLICK
 sendBtn.addEventListener("click", sendMessage);
 
+// ENTER BUTTON
 
-// ENTER PRESS
 userInput.addEventListener("keypress", function(e){
 
     if(e.key === "Enter"){
+
         sendMessage();
     }
+});
+
+// =========================================
+// VOICE INPUT
+// =========================================
+
+const voiceBtn = document.getElementById("voice-btn");
+
+const SpeechRecognition =
+window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+
+recognition.lang = "en-US";
+
+voiceBtn.addEventListener("click", () => {
+
+    recognition.start();
 
 });
 
+recognition.onresult = function(event){
 
+    const transcript = event.results[0][0].transcript;
 
-// BOT REPLIES
-function getBotReply(message){
+    userInput.value = transcript;
 
-    message = message.toLowerCase();
-
-
-    // GREETINGS
-    if(message.includes("hi") || message.includes("hello")){
-        return "Hello 👋 How can I help you?";
-    }
-
-    // NAME
-    else if(message.includes("your name")){
-        return "My name is Student AI 🤖";
-    }
-
-    // STUDY
-    else if(message.includes("study")){
-        return "Study daily with consistency 📚";
-    }
-
-    // MOTIVATION
-    else if(message.includes("motivation")){
-        return "Success comes from discipline, not motivation 🔥";
-    }
-
-    // MATH
-    else if(message.includes("math")){
-        return "Practice maths daily to improve fast ➕";
-    }
-
-    // PYTHON
-    else if(message.includes("python")){
-        return "Python is one of the easiest programming languages 🐍";
-    }
-
-    // C LANGUAGE
-    else if(message.includes("c language")){
-        return "C language helps you understand programming fundamentals 💻";
-    }
-
-    // AI
-    else if(message.includes("ai")){
-        return "Artificial Intelligence is the future 🚀";
-    }
-
-    // DEFAULT
-    else{
-        return "I am still learning 🤖";
-    }
-
-}
+    sendMessage();
+};
