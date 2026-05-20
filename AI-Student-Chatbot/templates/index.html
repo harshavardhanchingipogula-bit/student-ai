@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Student AI</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            🎓 Student AI
+        </div>
+
+        <button class="new-chat-btn">
+            + New Chat
+        </button>
+
+        <div id="chat-history"></div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOP -->
+
+        <div class="top-bar">
+
+            <div>
+
+                <h1>AI Student Chatbot</h1>
+
+                <p>Your Personal AI Study Assistant</p>
+
+            </div>
+
+            <div class="top-buttons">
+
+                <button onclick="toggleMode()"
+                class="mode-btn">
+                    🌙
+                </button>
+
+                <a href="/logout">
+
+                    <button class="logout-btn">
+                        Logout
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- CHAT -->
+
+        <div id="chat-container"
+        class="chat-container">
+
+            <div class="bot-message">
+                🤖 Hello! How can I assist you today?
+            </div>
+
+        </div>
+
+        <!-- INPUT -->
+
+        <div class="input-area">
+
+            <button onclick="startVoice()"
+            class="voice-btn">
+                🎤
+            </button>
+
+            <label for="file-upload"
+            class="upload-btn">
+                📎
+            </label>
+
+            <input
+            type="file"
+            id="file-upload"
+            class="file-upload">
+
+            <input
+            type="text"
+            id="user-input"
+            placeholder="Ask anything...">
+
+            <button onclick="sendMessage()"
+            class="send-btn">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

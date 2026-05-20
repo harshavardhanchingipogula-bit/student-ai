@@ -1,0 +1,425 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#07122b;
+    color:white;
+    height:100vh;
+    display:flex;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:240px;
+    background:#08152f;
+    padding:20px;
+    border-right:1px solid rgba(255,255,255,0.1);
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.new-chat-btn{
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#2f6df6;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.new-chat-btn:hover{
+    transform:scale(1.05);
+}
+
+/* HISTORY */
+
+#chat-history{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.history-item{
+    background:#162544;
+    padding:12px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.history-item:hover{
+    background:#2f6df6;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+}
+
+/* TOP BAR */
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px;
+    background:#08152f;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.top-bar h1{
+    font-size:48px;
+}
+
+.top-bar p{
+    opacity:0.8;
+    margin-top:5px;
+}
+
+.top-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.mode-btn,
+.logout-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.mode-btn{
+    background:#162544;
+    color:white;
+}
+
+.logout-btn{
+    background:red;
+    color:white;
+}
+
+.mode-btn:hover,
+.logout-btn:hover{
+    transform:scale(1.05);
+}
+
+/* CHAT */
+
+.chat-container{
+    flex:1;
+    padding:25px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    scroll-behavior:smooth;
+}
+
+/* USER */
+
+.user-message{
+    align-self:flex-end;
+    background:#2f6df6;
+    padding:15px 20px;
+    border-radius:18px;
+    max-width:70%;
+    word-wrap:break-word;
+    animation:fadeIn 0.3s ease;
+}
+
+/* BOT */
+
+.bot-message{
+    align-self:flex-start;
+    background:#162544;
+    padding:15px 20px;
+    border-radius:18px;
+    max-width:70%;
+    word-wrap:break-word;
+    animation:fadeIn 0.3s ease;
+}
+
+/* INPUT */
+
+.input-area{
+    display:flex;
+    gap:10px;
+    padding:18px;
+    background:#08152f;
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+#user-input{
+    flex:1;
+    padding:16px;
+    border:none;
+    border-radius:16px;
+    background:#162544;
+    color:white;
+    font-size:16px;
+}
+
+#user-input:focus{
+    outline:none;
+    border:1px solid #2f6df6;
+}
+
+/* BUTTONS */
+
+.voice-btn,
+.send-btn,
+.upload-btn{
+    width:60px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    font-size:22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.3s;
+}
+
+.voice-btn{
+    background:#162544;
+    color:white;
+}
+
+.upload-btn{
+    background:#162544;
+    color:white;
+}
+
+.send-btn{
+    background:#2f6df6;
+    color:white;
+}
+
+.voice-btn:hover,
+.send-btn:hover,
+.upload-btn:hover{
+    transform:scale(1.05);
+}
+
+/* FILE */
+
+.file-upload{
+    display:none;
+}
+
+/* IMAGE */
+
+.preview-image{
+    width:220px;
+    border-radius:16px;
+    margin-top:10px;
+}
+
+/* SCROLLBAR */
+
+.chat-container::-webkit-scrollbar{
+    width:6px;
+}
+
+.chat-container::-webkit-scrollbar-thumb{
+    background:#2f6df6;
+    border-radius:10px;
+}
+
+/* LOADING */
+
+.loading{
+    display:flex;
+    gap:5px;
+}
+
+.loading span{
+    width:8px;
+    height:8px;
+    background:white;
+    border-radius:50%;
+    animation:bounce 1s infinite;
+}
+
+.loading span:nth-child(2){
+    animation-delay:0.2s;
+}
+
+.loading span:nth-child(3){
+    animation-delay:0.4s;
+}
+
+@keyframes bounce{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-5px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* LIGHT MODE */
+
+.light-mode{
+    background:#f2f2f2;
+    color:black;
+}
+
+.light-mode .sidebar,
+.light-mode .top-bar,
+.light-mode .input-area{
+    background:white;
+}
+
+.light-mode #user-input{
+    background:#e4e4e4;
+    color:black;
+}
+
+.light-mode .bot-message{
+    background:#dcdcdc;
+    color:black;
+}
+
+.light-mode .voice-btn,
+.light-mode .upload-btn{
+    background:#dcdcdc;
+    color:black;
+}
+
+/* AUTH */
+
+.auth-body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#07122b;
+}
+
+.auth-container{
+    width:400px;
+    background:#08152f;
+    padding:40px;
+    border-radius:20px;
+}
+
+.auth-container h1{
+    margin-bottom:25px;
+    text-align:center;
+}
+
+.auth-container form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.auth-container input{
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#162544;
+    color:white;
+    font-size:16px;
+}
+
+.auth-container button{
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#2f6df6;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.auth-container p{
+    margin-top:20px;
+    text-align:center;
+}
+
+.auth-container a{
+    color:#2f6df6;
+    text-decoration:none;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .top-bar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .top-bar h1{
+        font-size:32px;
+    }
+
+    .user-message,
+    .bot-message{
+        max-width:90%;
+    }
+
+    .input-area{
+        padding:10px;
+    }
+
+    #user-input{
+        font-size:14px;
+    }
+
+}
