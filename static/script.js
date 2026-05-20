@@ -1,79 +1,118 @@
-async function sendMessage() {
+const sendBtn = document.getElementById("send-btn");
+const userInput = document.getElementById("user-input");
+const chatBox = document.getElementById("chat-box");
 
-    let input = document.getElementById("user-input");
 
-    let message = input.value;
+// SEND MESSAGE
+function sendMessage(){
 
-    if(message.trim() === ""){
+    let message = userInput.value.trim();
+
+    if(message === ""){
         return;
     }
 
-    let chatBox = document.getElementById("chat-box");
+    // USER MESSAGE
+    let userDiv = document.createElement("div");
 
-    chatBox.innerHTML += `
-        <div class="user-message">
-            ${message}
-        </div>
-    `;
+    userDiv.classList.add("message");
+    userDiv.classList.add("user-message");
 
-    input.value = "";
+    userDiv.innerText = message;
 
+    chatBox.appendChild(userDiv);
+
+    // AUTO SCROLL
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    document.getElementById("typing").classList.remove("hidden");
+    // CLEAR INPUT
+    userInput.value = "";
 
 
-    let response = await fetch("/chat", {
 
-        method:"POST",
+    // BOT THINKING
+    setTimeout(() => {
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+        let botDiv = document.createElement("div");
 
-        body:JSON.stringify({
-            message:message
-        })
+        botDiv.classList.add("message");
+        botDiv.classList.add("bot-message");
 
-    });
+        botDiv.innerText = getBotReply(message);
 
+        chatBox.appendChild(botDiv);
 
-    let data = await response.json();
+        chatBox.scrollTop = chatBox.scrollHeight;
 
-    document.getElementById("typing").classList.add("hidden");
+    },1000);
 
-
-    chatBox.innerHTML += `
-        <div class="bot-message">
-            ${data.reply}
-        </div>
-    `;
-
-
-    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 
-function handleEnter(event){
+// BUTTON CLICK
+sendBtn.addEventListener("click", sendMessage);
 
-    if(event.key === "Enter"){
+
+// ENTER PRESS
+userInput.addEventListener("keypress", function(e){
+
+    if(e.key === "Enter"){
         sendMessage();
     }
 
-}
+});
 
 
-function startVoice(){
 
-    const recognition = new webkitSpeechRecognition();
+// BOT REPLIES
+function getBotReply(message){
 
-    recognition.lang = "en-US";
+    message = message.toLowerCase();
 
-    recognition.onresult = function(event){
 
-        document.getElementById("user-input").value = event.results[0][0].transcript;
+    // GREETINGS
+    if(message.includes("hi") || message.includes("hello")){
+        return "Hello 👋 How can I help you?";
+    }
 
-    };
+    // NAME
+    else if(message.includes("your name")){
+        return "My name is Student AI 🤖";
+    }
 
-    recognition.start();
+    // STUDY
+    else if(message.includes("study")){
+        return "Study daily with consistency 📚";
+    }
+
+    // MOTIVATION
+    else if(message.includes("motivation")){
+        return "Success comes from discipline, not motivation 🔥";
+    }
+
+    // MATH
+    else if(message.includes("math")){
+        return "Practice maths daily to improve fast ➕";
+    }
+
+    // PYTHON
+    else if(message.includes("python")){
+        return "Python is one of the easiest programming languages 🐍";
+    }
+
+    // C LANGUAGE
+    else if(message.includes("c language")){
+        return "C language helps you understand programming fundamentals 💻";
+    }
+
+    // AI
+    else if(message.includes("ai")){
+        return "Artificial Intelligence is the future 🚀";
+    }
+
+    // DEFAULT
+    else{
+        return "I am still learning 🤖";
+    }
+
 }
