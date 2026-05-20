@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student AI</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#020f2f;
+    overflow:hidden;
+}
+
+/* MAIN */
+
+.container{
+    display:flex;
+    height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:#04153f;
+    padding:20px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.new-chat{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#3567f0;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* CHAT AREA */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+/* TOP */
+
+.top-bar{
+    padding:20px;
+    background:#06163d;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.top-bar h1{
+    font-size:45px;
+}
+
+.top-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.top-buttons button{
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+}
+
+.dark-btn{
+    background:#10224f;
+}
+
+.logout-btn{
+    background:red;
+}
+
+/* CHAT */
+
+.chat-box{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* MESSAGE */
+
+.message{
+    max-width:70%;
+    padding:15px;
+    border-radius:18px;
+    line-height:1.6;
+    font-size:16px;
+}
+
+.bot-message{
+    background:#1c2d5c;
+    color:white;
+    align-self:flex-start;
+}
+
+.user-message{
+    background:#3567f0;
+    color:white;
+    align-self:flex-end;
+}
+
+/* INPUT AREA */
+
+.input-area{
+    position:fixed;
+    bottom:0;
+    left:260px;
+    right:0;
+    display:flex;
+    gap:10px;
+    padding:15px;
+    background:#06163d;
+}
+
+#user-input{
+    flex:1;
+    padding:18px;
+    border:none;
+    border-radius:15px;
+    background:#10224f;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.input-area button{
+    border:none;
+    border-radius:15px;
+    background:#3567f0;
+    color:white;
+    padding:15px 20px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .container{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        flex-direction:row;
+        justify-content:space-between;
+        align-items:center;
+        padding:10px;
+    }
+
+    .logo{
+        font-size:22px;
+        margin-bottom:0;
+    }
+
+    .new-chat{
+        padding:10px;
+        font-size:14px;
+    }
+
+    .top-bar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .top-bar h1{
+        font-size:28px;
+    }
+
+    .message{
+        max-width:90%;
+        font-size:15px;
+    }
+
+    .input-area{
+        left:0;
+        width:100%;
+        padding:10px;
+    }
+
+    #user-input{
+        font-size:16px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            🎓 Student AI
+        </div>
+
+        <button class="new-chat">
+            + New Chat
+        </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOP -->
+
+        <div class="top-bar">
+
+            <div>
+
+                <h1>AI Student Chatbot</h1>
+
+                <p>Your Personal AI Study Assistant</p>
+
+            </div>
+
+            <div class="top-buttons">
+
+                <button class="dark-btn">
+                    🌙
+                </button>
+
+                <button class="logout-btn">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CHAT -->
+
+        <div class="chat-box" id="chat-box">
+
+            <div class="message bot-message">
+                🤖 Hello! How can I assist you today?
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- INPUT -->
+
+<div class="input-area">
+
+    <button onclick="startVoice()">
+        🎤
+    </button>
+
+    <input
+    type="text"
+    id="user-input"
+    placeholder="Ask anything...">
+
+    <button onclick="sendMessage()">
+        Send
+    </button>
+
+</div>
+
+<script>
+
+const input =
+document.getElementById("user-input");
+
+const chatBox =
+document.getElementById("chat-box");
+
+/* SEND MESSAGE */
+
+function sendMessage(){
+
+    let text =
+    input.value.trim();
+
+    if(text === ""){
+        return;
+    }
+
+    // USER MESSAGE
+
+    let userDiv =
+    document.createElement("div");
+
+    userDiv.classList.add(
+        "message",
+        "user-message"
+    );
+
+    userDiv.innerText = text;
+
+    chatBox.appendChild(userDiv);
+
+    // BOT MESSAGE
+
+    let botDiv =
+    document.createElement("div");
+
+    botDiv.classList.add(
+        "message",
+        "bot-message"
+    );
+
+    botDiv.innerText =
+    "AI is thinking...";
+
+    chatBox.appendChild(botDiv);
+
+    // AUTO SCROLL
+
+    chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+    // API CALL
+
+    fetch("/chat",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            message:text
+        })
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        botDiv.innerText =
+        data.reply;
+
+        speakText(data.reply);
+
+    });
+
+    input.value = "";
+
+}
+
+/* ENTER KEY */
+
+input.addEventListener(
+"keypress",
+
+function(e){
+
+    if(e.key === "Enter"){
+
+        sendMessage();
+
+    }
+
+});
+
+/* VOICE INPUT */
+
+function startVoice(){
+
+    const recognition =
+    new webkitSpeechRecognition();
+
+    recognition.lang = "en-US";
+
+    recognition.start();
+
+    recognition.onresult = function(event){
+
+        input.value =
+        event.results[0][0].transcript;
+
+    }
+
+}
+
+/* VOICE OUTPUT */
+
+function speakText(text){
+
+    let speech =
+    new SpeechSynthesisUtterance();
+
+    speech.text = text;
+
+    speech.lang = "en-US";
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+</script>
+
+</body>
+</html>
