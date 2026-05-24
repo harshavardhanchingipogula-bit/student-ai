@@ -1,93 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student AI</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css', v='1') }}"
+    >
+
 </head>
 
 <body>
 
-<div class="app">
+<div class="sidebar">
 
-    <!-- SIDEBAR -->
+    <h2>🎓 Student AI</h2>
 
-    <div class="sidebar">
+</div>
 
-        <div class="logo">🎓</div>
+<div class="main">
 
-        <h2>Student AI</h2>
+    <div class="top">
 
-        <button class="new-chat">
-            + New Chat
-        </button>
+        <h1>AI Student Chatbot</h1>
 
-        <div class="chat-history">
+        <p>Your Personal AI Study Assistant</p>
 
-            <div class="chat-item">
-                Chat 1
-            </div>
+    </div>
 
+    <div
+        class="chat-area"
+        id="chat-area"
+    >
+
+        <div class="bot message">
+            👋 Hello! How can I help you?
         </div>
 
     </div>
 
-    <!-- MAIN -->
+    <div class="input-area">
 
-    <div class="main">
+        <input
+            type="text"
+            id="user-input"
+            placeholder="Ask anything..."
+        >
 
-        <!-- TOP -->
-
-        <div class="topbar">
-
-            <h1>AI Student Chatbot</h1>
-
-            <p>Your Personal AI Study Assistant</p>
-
-        </div>
-
-        <!-- CHAT -->
-
-        <div class="chat-area" id="chat-area">
-
-            <div class="message bot">
-                👋 Hello! How can I assist you today?
-            </div>
-
-        </div>
-
-        <!-- INPUT -->
-
-        <div class="input-area">
-
-            <div class="input-box">
-
-                <input
-                    type="text"
-                    id="user-input"
-                    placeholder="Ask anything..."
-                >
-
-                <button
-                    class="send-btn"
-                    onclick="sendMessage()"
-                >
-                    ➤
-                </button>
-
-            </div>
-
-        </div>
+        <button onclick="sendMessage()">
+            ➤
+        </button>
 
     </div>
 
 </div>
 
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script
+src="{{ url_for('static', filename='script.js', v='1') }}"
+></script>
 
 </body>
 </html>

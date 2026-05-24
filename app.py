@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# API KEY FROM RENDER ENVIRONMENT VARIABLE
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 @app.route("/")
@@ -14,54 +13,32 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
 
-    user_message = request.json["message"]
+    message = request.json["message"]
 
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "HTTP-Referer": "https://student-ai-3.onrender.com",
-        "X-Title": "Student AI",
-        "Content-Type": "application/json"
-    }
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "mistralai/mistral-7b-instruct:free",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ]
+        }
+    )
 
-    data = {
-        "model": "mistralai/mistral-7b-instruct:free",
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a helpful AI assistant."
-            },
-            {
-                "role": "user",
-                "content": user_message
-            }
-        ]
-    }
+    data = response.json()
 
-    try:
+    reply = data["choices"][0]["message"]["content"]
 
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=headers,
-            json=data
-        )
-
-        result = response.json()
-
-        print(result)
-
-        reply = result["choices"][0]["message"]["content"]
-
-        return jsonify({
-            "reply": reply
-        })
-
-    except Exception as e:
-
-        print(e)
-
-        return jsonify({
-            "reply": "Error getting AI response"
-        })
+    return jsonify({
+        "reply": reply
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,77 +1,50 @@
-async function sendMessage() {
+async function sendMessage(){
 
     const input = document.getElementById("user-input");
+
     const chatArea = document.getElementById("chat-area");
 
-    const message = input.value.trim();
+    const message = input.value;
 
-    if(message === ""){
+    if(message == ""){
         return;
     }
 
-    // USER MESSAGE
+    const userDiv = document.createElement("div");
 
-    const userMessage = document.createElement("div");
+    userDiv.className = "message user";
 
-    userMessage.classList.add("message");
-    userMessage.classList.add("user");
+    userDiv.innerText = message;
 
-    userMessage.innerText = message;
-
-    chatArea.appendChild(userMessage);
+    chatArea.appendChild(userDiv);
 
     input.value = "";
 
-    // BOT LOADING MESSAGE
+    const botDiv = document.createElement("div");
 
-    const botMessage = document.createElement("div");
+    botDiv.className = "message bot";
 
-    botMessage.classList.add("message");
-    botMessage.classList.add("bot");
+    botDiv.innerText = "Typing...";
 
-    botMessage.innerText = "Typing...";
+    chatArea.appendChild(botDiv);
 
-    chatArea.appendChild(botMessage);
+    const response = await fetch("/chat", {
 
-    chatArea.scrollTop = chatArea.scrollHeight;
+        method:"POST",
 
-    try{
+        headers:{
+            "Content-Type":"application/json"
+        },
 
-        const response = await fetch("/chat", {
+        body:JSON.stringify({
+            message:message
+        })
 
-            method:"POST",
+    });
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+    const data = await response.json();
 
-            body:JSON.stringify({
-                message:message
-            })
-
-        });
-
-        const data = await response.json();
-
-        botMessage.innerText = data.reply;
-
-    }catch(error){
-
-        botMessage.innerText = "Error getting AI response";
-
-    }
+    botDiv.innerText = data.reply;
 
     chatArea.scrollTop = chatArea.scrollHeight;
 }
-
-/* ENTER KEY */
-
-document
-.getElementById("user-input")
-.addEventListener("keypress", function(event){
-
-    if(event.key === "Enter"){
-        sendMessage();
-    }
-
-});
