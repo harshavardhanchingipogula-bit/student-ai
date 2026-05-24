@@ -1,14 +1,11 @@
-const sendBtn = document.getElementById("send-btn");
-
-const userInput = document.getElementById("user-input");
-
-const chatBox = document.getElementById("chat-box");
-
 async function sendMessage() {
 
-    const message = userInput.value;
+    const input = document.getElementById("user-input");
+    const chatArea = document.getElementById("chat-area");
 
-    if(message.trim() === ""){
+    const message = input.value.trim();
+
+    if(message === ""){
         return;
     }
 
@@ -16,98 +13,65 @@ async function sendMessage() {
 
     const userMessage = document.createElement("div");
 
-    userMessage.classList.add("message", "user");
+    userMessage.classList.add("message");
+    userMessage.classList.add("user");
 
     userMessage.innerText = message;
 
-    chatBox.appendChild(userMessage);
+    chatArea.appendChild(userMessage);
 
-    userInput.value = "";
+    input.value = "";
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    // BOT LOADING MESSAGE
+
+    const botMessage = document.createElement("div");
+
+    botMessage.classList.add("message");
+    botMessage.classList.add("bot");
+
+    botMessage.innerText = "Typing...";
+
+    chatArea.appendChild(botMessage);
+
+    chatArea.scrollTop = chatArea.scrollHeight;
 
     try{
 
         const response = await fetch("/chat", {
 
-            method: "POST",
+            method:"POST",
 
-            headers: {
-                "Content-Type": "application/json"
+            headers:{
+                "Content-Type":"application/json"
             },
 
-            body: JSON.stringify({
-                message: message
+            body:JSON.stringify({
+                message:message
             })
 
         });
 
         const data = await response.json();
 
-        // AI MESSAGE
+        botMessage.innerText = data.reply;
 
-        const aiMessage = document.createElement("div");
+    }catch(error){
 
-        aiMessage.classList.add("message", "ai");
-
-        aiMessage.innerText = data.reply;
-
-        chatBox.appendChild(aiMessage);
-
-        chatBox.scrollTop = chatBox.scrollHeight;
+        botMessage.innerText = "Error getting AI response";
 
     }
 
-    catch(error){
-
-        const aiMessage = document.createElement("div");
-
-        aiMessage.classList.add("message", "ai");
-
-        aiMessage.innerText = "Error connecting to AI.";
-
-        chatBox.appendChild(aiMessage);
-    }
+    chatArea.scrollTop = chatArea.scrollHeight;
 }
 
-// SEND BUTTON
+/* ENTER KEY */
 
-sendBtn.addEventListener("click", sendMessage);
+document
+.getElementById("user-input")
+.addEventListener("keypress", function(event){
 
-// ENTER BUTTON
-
-userInput.addEventListener("keypress", function(e){
-
-    if(e.key === "Enter"){
-
+    if(event.key === "Enter"){
         sendMessage();
     }
-});
-
-// =========================================
-// VOICE INPUT
-// =========================================
-
-const voiceBtn = document.getElementById("voice-btn");
-
-const SpeechRecognition =
-window.SpeechRecognition || window.webkitSpeechRecognition;
-
-const recognition = new SpeechRecognition();
-
-recognition.lang = "en-US";
-
-voiceBtn.addEventListener("click", () => {
-
-    recognition.start();
 
 });
-
-recognition.onresult = function(event){
-
-    const transcript = event.results[0][0].transcript;
-
-    userInput.value = transcript;
-
-    sendMessage();
-};
