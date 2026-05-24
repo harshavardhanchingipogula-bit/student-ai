@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import requests
+import os
 
 app = Flask(__name__)
 
-API_KEY = "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"
+# API KEY FROM RENDER ENVIRONMENT VARIABLE
+API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 @app.route("/")
 def home():
@@ -16,15 +18,17 @@ def chat():
 
     headers = {
         "Authorization": f"Bearer {API_KEY}",
+        "HTTP-Referer": "https://student-ai-3.onrender.com",
+        "X-Title": "Student AI",
         "Content-Type": "application/json"
     }
 
     data = {
-        "model": "openai/gpt-3.5-turbo",
+        "model": "mistralai/mistral-7b-instruct:free",
         "messages": [
             {
                 "role": "system",
-                "content": "You are a helpful AI study assistant."
+                "content": "You are a helpful AI assistant."
             },
             {
                 "role": "user",
