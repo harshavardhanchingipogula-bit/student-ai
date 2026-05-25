@@ -1,47 +1,180 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Student AI</title>
+
+    <!-- CSS -->
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='style.css', v='1') }}"
+        href="{{ url_for('static', filename='style.css') }}?v={{ range(1,9999)|random }}"
     >
 
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
+
 <div class="sidebar">
 
-    <h2>🎓 Student AI</h2>
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        🎓 Student AI
+
+    </div>
+
+    <!-- NEW CHAT -->
+
+    <button id="new-chat-btn">
+
+        + New Chat
+
+    </button>
+
+    <!-- CHAT LIST -->
+
+    <div
+        class="chat-list"
+        id="chat-list"
+    >
+
+        <div class="chat-item active-chat">
+
+            New Conversation
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- MAIN -->
+
 <div class="main">
 
-    <div class="top">
+    <!-- TOPBAR -->
 
-        <h1>AI Student Chatbot</h1>
+    <div class="topbar">
 
-        <p>Your Personal AI Study Assistant</p>
+        <div class="top-header">
+
+            <div>
+
+                <h1>AI Student Chatbot</h1>
+
+                <p>Your Personal AI Study Assistant</p>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="top-right">
+
+                <!-- THEME -->
+
+                <button id="theme-toggle">
+
+                    🌙
+
+                </button>
+
+                <!-- PROFILE -->
+
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    class="profile-img"
+                >
+
+            </div>
+
+        </div>
 
     </div>
+
+    <!-- CHAT AREA -->
 
     <div
         class="chat-area"
         id="chat-area"
     >
 
-        <div class="bot message">
+        <div class="message bot">
+
             👋 Hello! How can I help you?
+
         </div>
 
     </div>
 
+    <!-- INPUT -->
+
     <div class="input-area">
+
+        <!-- PLUS -->
+
+        <div class="plus-wrapper">
+
+            <button
+                class="icon-btn"
+                id="plus-btn"
+            >
+                +
+            </button>
+
+            <!-- POPUP -->
+
+            <div
+                class="popup-menu"
+                id="popup-menu"
+            >
+
+                <div class="menu-item">
+                    📁 Add photos & files
+                </div>
+
+                <div class="menu-item">
+                    📸 Take screenshot
+                </div>
+
+                <div class="menu-item">
+                    📷 Take photo
+                </div>
+
+                <div class="menu-item">
+                    🕘 Recent files
+                </div>
+
+                <hr>
+
+                <div class="menu-item">
+                    🖼 Create image
+                </div>
+
+                <div class="menu-item">
+                    💡 Thinking
+                </div>
+
+                <div class="menu-item">
+                    🌐 Web search
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INPUT -->
 
         <input
             type="text"
@@ -49,16 +182,36 @@
             placeholder="Ask anything..."
         >
 
-        <button onclick="sendMessage()">
+        <!-- MIC -->
+
+        <button
+            class="icon-btn"
+            id="mic-btn"
+        >
+
+            🎤
+
+        </button>
+
+        <!-- SEND -->
+
+        <button
+            class="send-btn"
+            onclick="sendMessage()"
+        >
+
             ➤
+
         </button>
 
     </div>
 
 </div>
 
+<!-- JS -->
+
 <script
-src="{{ url_for('static', filename='script.js', v='1') }}"
+src="{{ url_for('static', filename='script.js') }}?v={{ range(1,9999)|random }}"
 ></script>
 
 </body>
